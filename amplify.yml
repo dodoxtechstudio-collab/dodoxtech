@@ -1,0 +1,32 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - node --version
+        - npm ci
+    build:
+      commands:
+        - npm run build
+    postBuild:
+      commands:
+        - echo "Build complete"
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+
+backend:
+  phases:
+    build:
+      commands:
+        - npm ci --omit=dev
+  artifacts:
+    files:
+      - aws-server.mjs
+      - package.json
+      - package-lock.json
+      - dist/**/*
